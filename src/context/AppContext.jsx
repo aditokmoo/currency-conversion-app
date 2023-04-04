@@ -21,8 +21,8 @@ export const AppContextProvider = ({ children }) => {
         const data = await response.json();
         const dataKeys = Object.keys(data.conversion_rates).map(key => key);
 
-        // Get Random currency
-        const firstCurrency = Object.keys(data.conversion_rates)[Math.floor(Math.random() * 160)];
+        // Get first currency
+        const firstCurrency = Object.keys(data.conversion_rates)[1];
         // Add conversion rates data to state
         setConversionData(data.conversion_rates)
         // Add Currency option data
@@ -33,11 +33,14 @@ export const AppContextProvider = ({ children }) => {
         setToCurrency(firstCurrency)
     }
     
+    // Convert Currency Function
     const convertCurrency = (e) => {
         e.preventDefault();
         
+        // Formula for converting currency
         const result = amount * conversionData[toCurrency];
         
+        // Update state with result
         setResult(result.toFixed(2));
     }
 

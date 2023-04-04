@@ -5,36 +5,39 @@ import './css/currencyList.css';
 
 export const CurrencyList = () => {
 	const { conversionData } = useContext(AppContext);
-    const [ srednjiTecaj, setSrednjiTecaj ] = useState([]);
-    const [ prodajniTecaj, setProdajniTecaj ] = useState([]);
-    const [ kupovniTecaj, setKupovniTecaj ] = useState([]);
+	const [ srednjiTecaj, setSrednjiTecaj ] = useState([]);
+	const [ prodajniTecaj, setProdajniTecaj ] = useState([]);
+	const [ kupovniTecaj, setKupovniTecaj ] = useState([]);
 
-    useEffect(() => {
-        // Get Srednji Tecaj
-        const kupovniTecajArr = Object.values(conversionData).map(val => {
-            const sum = val * (1 + 0.02);
+	useEffect(
+		() => {
+			// Get Srednji Tecaj
+			const kupovniTecajArr = Object.values(conversionData).map((val) => {
+				const sum = val * (1 + 0.02);
 
-            return +sum.toFixed(6);
-        })
+				return +sum.toFixed(6);
+			});
 
-        // Get Prodajni Tecaj
-        const prodajniTecajArr = Object.values(conversionData).map(val => {
-            const sum = val * (1 - 0.03);
+			// Get Prodajni Tecaj
+			const prodajniTecajArr = Object.values(conversionData).map((val) => {
+				const sum = val * (1 - 0.03);
 
-            return +sum.toFixed(6)
-        })
+				return +sum.toFixed(6);
+			});
 
-        // Get Srednji Tecaj
-        const srednjiTecajArr = Object.values(conversionData).map((val, index) => {
-            const sum = (kupovniTecaj[index] + prodajniTecaj[index] ) / 2;
+			// Get Srednji Tecaj
+			const srednjiTecajArr = Object.values(conversionData).map((val, index) => {
+				const sum = (kupovniTecaj[index] + prodajniTecaj[index]) / 2;
 
-            return sum ? +sum.toFixed(6) : 0;
-        }) 
+				return sum ? +sum.toFixed(6) : 0;
+			});
 
-        setKupovniTecaj(kupovniTecajArr.sort((x, y) => x - y))
-        setProdajniTecaj(prodajniTecajArr.sort((x, y) => x - y))
-        setSrednjiTecaj(srednjiTecajArr.sort((x, y) => x - y))
-    }, [conversionData])
+			setKupovniTecaj(kupovniTecajArr.sort((x, y) => x - y));
+			setProdajniTecaj(prodajniTecajArr.sort((x, y) => x - y));
+			setSrednjiTecaj(srednjiTecajArr.sort((x, y) => x - y));
+		},
+		[ conversionData, srednjiTecaj, kupovniTecaj, prodajniTecaj ]
+	);
 
 	return (
 		<section>
